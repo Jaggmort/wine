@@ -22,19 +22,19 @@ def create_age_string():
 
 
 def load_excel(data_file):
-    xlsx_data = pandas.read_excel(data_file)
-    xlsx_data = xlsx_data.fillna('')
-    column_names = xlsx_data.columns.ravel()
-    wine_data = collections.defaultdict(list)
-    for wine_number in range(len(xlsx_data)):
-        result = {'title': xlsx_data[column_names[1]][wine_number],
-                  'sort': xlsx_data[column_names[2]][wine_number],
-                  'price': xlsx_data[column_names[3]][wine_number],
-                  'image': f'images/{xlsx_data[column_names[4]][wine_number]}',
-                  'discont': xlsx_data[column_names[5]][wine_number],
+    xlsx = pandas.read_excel(data_file)
+    xlsx = xlsx.fillna('')
+    column_names = xlsx.columns.ravel()
+    wines = collections.defaultdict(list)
+    for wine_number in range(len(xlsx)):
+        result = {'title': xlsx[column_names[1]][wine_number],
+                  'sort': xlsx[column_names[2]][wine_number],
+                  'price': xlsx[column_names[3]][wine_number],
+                  'image': f'images/{xlsx[column_names[4]][wine_number]}',
+                  'discont': xlsx[column_names[5]][wine_number],
                   }
-        wine_data[xlsx_data[column_names[0]][wine_number]].append(result)
-    return wine_data
+        wines[xlsx[column_names[0]][wine_number]].append(result)
+    return wines
 
 
 def main():
