@@ -50,7 +50,7 @@ def main():
 
     wines = load_excel()
     rendered_page = template.render(
-        age=f'{create_age_string()}',
+        age=create_age_string(),
         wines=wines,
     )
 
