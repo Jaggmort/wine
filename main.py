@@ -23,19 +23,20 @@ def check_age():
 def load_excel():
     load_dotenv()
     data_file = os.environ.get('DATA_FILE')
-    data_from_xlsx = pandas.read_excel(data_file)
-    data_from_xlsx = data_from_xlsx.fillna('None')
-    column_names = data_from_xlsx.columns.ravel()
-    processed_wine_data = collections.defaultdict(list)
-    for wine_number in range(len(data_from_xlsx)):
-        result = {'title': data_from_xlsx[column_names[1]][wine_number],
-                  'sort': data_from_xlsx[column_names[2]][wine_number],
-                  'price': data_from_xlsx[column_names[3]][wine_number],
-                  'image': f'images/{data_from_xlsx[column_names[4]][wine_number]}',
-                  'discont': data_from_xlsx[column_names[5]][wine_number],
+    xlsx_data = pandas.read_excel(data_file)
+    xlsx_data = xlsx_data.fillna('None')
+    column_names = xlsx_data.columns.ravel()
+    wine_data = collections.defaultdict(list)
+    for wine_number in range(len(xlsx_data)):
+        result = {'title': xlsx_data[column_names[1]][wine_number],
+                  'sort': xlsx_data[column_names[2]][wine_number],
+                  'price': xlsx_data[column_names[3]][wine_number],
+                  'image': f'images/{xlsx_data[column_names[4]][wine_number]}',
+                  'discont': xlsx_data[column_names[5]][wine_number],
                   }
-        processed_wine_data[data_from_xlsx[column_names[0]][wine_number]].append(result)
-    return processed_wine_data
+        wine_data[xlsx_data[column_names[0]][wine_number]].append(result)
+    return wine_data
+
 
 def main():
     warnings.filterwarnings("ignore")
@@ -57,6 +58,7 @@ def main():
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
+
 
 if __name__ == '__main__':
     main()
