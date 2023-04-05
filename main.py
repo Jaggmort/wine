@@ -25,7 +25,7 @@ def load_excel(data_file):
     xlsx = pandas.read_excel(data_file)
     xlsx = xlsx.fillna('')
     column_names = xlsx.columns.ravel()
-    wines = collections.defaultdict(list)
+    products = collections.defaultdict(list)
     for wine_number in range(len(xlsx)):
         result = {'title': xlsx[column_names[1]][wine_number],
                   'sort': xlsx[column_names[2]][wine_number],
@@ -33,8 +33,8 @@ def load_excel(data_file):
                   'image': f'images/{xlsx[column_names[4]][wine_number]}',
                   'discont': xlsx[column_names[5]][wine_number],
                   }
-        wines[xlsx[column_names[0]][wine_number]].append(result)
-    return wines
+        products[xlsx[column_names[0]][wine_number]].append(result)
+    return products
 
 
 def main():
