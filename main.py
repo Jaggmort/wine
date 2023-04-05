@@ -40,7 +40,7 @@ def load_excel(data_file):
 def main():
     load_dotenv()
     warnings.filterwarnings("ignore")
-    data_file = os.environ.get('DATA_FILE')    
+    data_file = os.environ.get('XLSX_DATA_FILE')
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
