@@ -8,7 +8,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
-def check_age():
+def create_age_string():
     age = datetime.datetime.now().year - 1920
     cut_age = age % 100
     if cut_age == 1:
@@ -49,7 +49,7 @@ def main():
 
     wines = load_excel()
     rendered_page = template.render(
-        age=f'{check_age()}',
+        age=f'{create_age_string()}',
         wines=wines,
     )
 
