@@ -21,8 +21,7 @@ def create_age_string():
     return result
 
 
-def load_excel():
-    data_file = os.environ.get('DATA_FILE')
+def load_excel(data_file):
     xlsx_data = pandas.read_excel(data_file)
     xlsx_data = xlsx_data.fillna('')
     column_names = xlsx_data.columns.ravel()
@@ -41,6 +40,7 @@ def load_excel():
 def main():
     load_dotenv()
     warnings.filterwarnings("ignore")
+    data_file = os.environ.get('DATA_FILE')    
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -48,7 +48,7 @@ def main():
 
     template = env.get_template('template.html')
 
-    wines = load_excel()
+    wines = load_excel(data_file)
     rendered_page = template.render(
         age=create_age_string(),
         wines=wines,
