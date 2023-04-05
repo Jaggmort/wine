@@ -9,7 +9,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def create_age_string():
-    age = datetime.datetime.now().year - 1920
+    company_creation_date = 1920
+    age = datetime.datetime.now().year - company_creation_date
     cut_age = age % 100
     if cut_age == 1:
         result = f'Уже {age} год с вами'
