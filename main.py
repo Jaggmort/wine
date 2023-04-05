@@ -22,25 +22,20 @@ def create_age_string():
 
 
 def load_excel(data_file):
-    xlsx = pandas.read_excel(data_file)
-    xlsx = xlsx.fillna('')
-    column_names = xlsx.columns.ravel()
-    products = collections.defaultdict(list)
-    for wine_number in range(len(xlsx)):
-        result = {'title': xlsx[column_names[1]][wine_number],
-                  'sort': xlsx[column_names[2]][wine_number],
-                  'price': xlsx[column_names[3]][wine_number],
-                  'image': f'images/{xlsx[column_names[4]][wine_number]}',
-                  'discont': xlsx[column_names[5]][wine_number],
-                  }
-        products[xlsx[column_names[0]][wine_number]].append(result)
-    return products
+    products = pandas.read_excel(data_file,
+                                 na_values=None,
+                                 keep_default_na=False
+                                 ).to_dict(orient='records')
+    grouped_products = collections.defaultdict(list)
+    for product in products:
+        grouped_products[product['Категория']].append(product)
+    return grouped_products
 
 
 def main():
     load_dotenv()
     warnings.filterwarnings("ignore")
-    data_file = os.environ.get('XLSX_DATA_FILE')
+    xlsx_path = os.environ.get('XLSX_PATH')
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -48,7 +43,7 @@ def main():
 
     template = env.get_template('template.html')
 
-    wines = load_excel(data_file)
+    wines = load_excel(xlsx_path)
     rendered_page = template.render(
         age=create_age_string(),
         wines=wines,
