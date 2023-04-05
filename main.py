@@ -25,7 +25,7 @@ def load_excel():
     load_dotenv()
     data_file = os.environ.get('DATA_FILE')
     xlsx_data = pandas.read_excel(data_file)
-    xlsx_data = xlsx_data.fillna('None')
+    xlsx_data = xlsx_data.fillna('')
     column_names = xlsx_data.columns.ravel()
     wine_data = collections.defaultdict(list)
     for wine_number in range(len(xlsx_data)):
