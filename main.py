@@ -22,7 +22,6 @@ def create_age_string():
 
 
 def load_excel():
-    load_dotenv()
     data_file = os.environ.get('DATA_FILE')
     xlsx_data = pandas.read_excel(data_file)
     xlsx_data = xlsx_data.fillna('')
@@ -40,6 +39,7 @@ def load_excel():
 
 
 def main():
+    load_dotenv()
     warnings.filterwarnings("ignore")
     env = Environment(
         loader=FileSystemLoader('.'),
