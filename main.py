@@ -1,6 +1,7 @@
 import datetime
 import pandas
 import collections
+import warnings
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -32,21 +33,26 @@ def load_excel():
         default_dict[excel[column_names[0]][wine_number]].append(result)
     return default_dict
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
+def main():
+    warnings.filterwarnings("ignore")    
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
 
-template = env.get_template('template.html')
+    template = env.get_template('template.html')
 
-wines = load_excel()
-rendered_page = template.render(
-    age=f'{check_age()}',
-    wines=wines,
-)
+    wines = load_excel()
+    rendered_page = template.render(
+        age=f'{check_age()}',
+        wines=wines,
+    )
 
-with open('index.html', 'w', encoding="utf8") as file:
-    file.write(rendered_page)
+    with open('index.html', 'w', encoding="utf8") as file:
+        file.write(rendered_page)
 
-server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-server.serve_forever()
+    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+    server.serve_forever()
+
+if __name__ == '__main__':
+    main()
