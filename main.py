@@ -2,6 +2,8 @@ import datetime
 import pandas
 import collections
 import warnings
+import os
+from dotenv import load_dotenv
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -19,7 +21,9 @@ def check_age():
 
 
 def load_excel():
-    excel = pandas.read_excel('wine3.xlsx')
+    load_dotenv()
+    data_file = os.environ.get('DATA_FILE')
+    excel = pandas.read_excel(data_file)
     excel = excel.fillna('None')
     column_names = excel.columns.ravel()
     default_dict = collections.defaultdict(list)
@@ -34,7 +38,7 @@ def load_excel():
     return default_dict
 
 def main():
-    warnings.filterwarnings("ignore")    
+    warnings.filterwarnings("ignore")
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
